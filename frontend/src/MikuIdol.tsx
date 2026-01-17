@@ -4,9 +4,20 @@ import { useLive2D } from "./hooks/useLive2D";
 import { ChatBubble } from "./components/Chat/ChatBubble";
 import { ChatInput } from "./components/Chat/ChatInput";
 import { LoadingIndicator } from "./components/Chat/LoadingIndicator";
-import { messageContainerStyle } from "./components/Chat/ChatStyles";
+import {
+    outerFrameStyle,
+    middleFrameStyle,
+    innerContentStyle,
+    headerBarStyle,
+    headerLeftStyle,
+    headerRightStyle,
+    headerButtonStyle,
+    headerLineStyle,
+    messagesAreaStyle,
+} from "./components/Chat/ChatStyles";
 import { useCallback } from "react";
 import type { MotionGroup } from "./types/miku";
+
 
 export default function MikuIdol() {
     const { mouthOpenRef, playAudio } = useAudioLipsync();
@@ -62,36 +73,63 @@ export default function MikuIdol() {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    gap: 16,
-                    background: "transparent",
                     marginLeft: "80px",
                     marginRight: "20px",
                     justifyContent: "center",
-                    paddingBottom: "50px",
+                    paddingTop: "30px",
+                    paddingBottom: "30px",
                     boxSizing: "border-box",
                     minHeight: 0,
                 }}
             >
-                {/* Messages List - using style from ChatStyles */}
-                <div ref={messagesRef} className="no-scrollbar" style={messageContainerStyle}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingRight: 6 }}>
-                        {messages.map((m) => (
-                            <ChatBubble key={m.id} message={m} onUpdate={handleBubbleUpdate} />
-                        ))}
-                        {isBusy && <LoadingIndicator />}
+                {/* LAYER 1: Outer neon frame (brightest glow) */}
+                <div style={outerFrameStyle}>
+                    {/* LAYER 2: Middle frame (dark gap) */}
+                    <div style={middleFrameStyle}>
+                        {/* LAYER 3: Inner content area */}
+                        <div style={innerContentStyle}>
+                            {/* Header bar with decorative lines and controls */}
+                            <div style={headerBarStyle}>
+                                {/* Left: decorative lines */}
+                                <div style={headerLeftStyle}>
+                                    <div style={{ ...headerLineStyle, width: 24 }} />
+                                    <div style={{ ...headerLineStyle, width: 16, opacity: 0.7 }} />
+                                    <div style={{ ...headerLineStyle, width: 10, opacity: 0.5 }} />
+                                </div>
+
+                                {/* Right: minimize and close buttons */}
+                                <div style={headerRightStyle}>
+                                    <button style={headerButtonStyle} aria-label="Minimize">
+                                        ─
+                                    </button>
+                                    <button style={headerButtonStyle} aria-label="Close chat">
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Messages List */}
+                            <div ref={messagesRef} className="no-scrollbar" style={messagesAreaStyle}>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingRight: 6 }}>
+                                    {messages.map((m) => (
+                                        <ChatBubble key={m.id} message={m} onUpdate={handleBubbleUpdate} />
+                                    ))}
+                                    {isBusy && <LoadingIndicator />}
+                                </div>
+                            </div>
+
+                            {/* Input Area */}
+                            <ChatInput
+                                draft={draft}
+                                isBusy={isBusy}
+                                setDraft={setDraft}
+                                onSend={sendMessage}
+                            />
+                        </div>
                     </div>
                 </div>
-
-
-
-                {/* Input Area */}
-                <ChatInput
-                    draft={draft}
-                    isBusy={isBusy}
-                    setDraft={setDraft}
-                    onSend={sendMessage}
-                />
             </div>
+
 
             {/* RIGHT: Live2D Canvas */}
             <div
