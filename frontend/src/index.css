@@ -5,14 +5,11 @@
 html,
 body,
 #root {
+  /* Prevent scrolling */
   height: 100%;
   margin: 0;
   overflow: hidden;
-  /* Prevent scrolling */
-  background-image: url('/background.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: transparent;
 }
 
 

@@ -83,51 +83,7 @@ export default function MikuIdol() {
                 }}
             >
                 {/* LAYER 1: Outer neon frame (brightest glow) */}
-                <div style={outerFrameStyle}>
-                    {/* LAYER 2: Middle frame (dark gap) */}
-                    <div style={middleFrameStyle}>
-                        {/* LAYER 3: Inner content area */}
-                        <div style={innerContentStyle}>
-                            {/* Header bar with decorative lines and controls */}
-                            <div style={headerBarStyle}>
-                                {/* Left: decorative lines */}
-                                <div style={headerLeftStyle}>
-                                    <div style={{ ...headerLineStyle, width: 24 }} />
-                                    <div style={{ ...headerLineStyle, width: 16, opacity: 0.7 }} />
-                                    <div style={{ ...headerLineStyle, width: 10, opacity: 0.5 }} />
-                                </div>
-
-                                {/* Right: minimize and close buttons */}
-                                <div style={headerRightStyle}>
-                                    <button style={headerButtonStyle} aria-label="Minimize">
-                                        ─
-                                    </button>
-                                    <button style={headerButtonStyle} aria-label="Close chat">
-                                        ✕
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Messages List */}
-                            <div ref={messagesRef} className="no-scrollbar" style={messagesAreaStyle}>
-                                <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingRight: 6 }}>
-                                    {messages.map((m) => (
-                                        <ChatBubble key={m.id} message={m} onUpdate={handleBubbleUpdate} />
-                                    ))}
-                                    {isBusy && <LoadingIndicator />}
-                                </div>
-                            </div>
-
-                            {/* Input Area */}
-                            <ChatInput
-                                draft={draft}
-                                isBusy={isBusy}
-                                setDraft={setDraft}
-                                onSend={sendMessage}
-                            />
-                        </div>
-                    </div>
-                </div>
+                
             </div>
 
 
