@@ -1,20 +1,6 @@
 import { useAudioLipsync } from "./hooks/useAudioLipsync";
 import { useChat } from "./hooks/useChat";
 import { useLive2D } from "./hooks/useLive2D";
-import { ChatBubble } from "./components/Chat/ChatBubble";
-import { ChatInput } from "./components/Chat/ChatInput";
-import { LoadingIndicator } from "./components/Chat/LoadingIndicator";
-import {
-    outerFrameStyle,
-    middleFrameStyle,
-    innerContentStyle,
-    headerBarStyle,
-    headerLeftStyle,
-    headerRightStyle,
-    headerButtonStyle,
-    headerLineStyle,
-    messagesAreaStyle,
-} from "./components/Chat/ChatStyles";
 import { useCallback } from "react";
 import type { MotionGroup } from "./types/miku";
 
