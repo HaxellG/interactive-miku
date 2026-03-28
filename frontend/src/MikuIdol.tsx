@@ -1,15 +1,32 @@
 import { useAudioLipsync } from "./hooks/useAudioLipsync";
 import { useChat } from "./hooks/useChat";
 import { useLive2D } from "./hooks/useLive2D";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import type { MotionGroup } from "./types/miku";
 import ChatInput from "./components/ChatInput/ChatInput";
 import ChatBubble from "./components/ChatBubbles/ChatBubble";
 import CreatorInfo from "./components/CreatorInfo/CreatorInfo";
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 
-export default function MikuIdol() {
+interface MikuIdolProps {
+    isVideoLoaded?: boolean;
+}
+
+export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
     const { mouthOpenRef, playAudio } = useAudioLipsync();
-    const { hostRef, playMotion } = useLive2D({ mouthOpenRef });
+    const { hostRef, playMotion, isLoaded: isLive2DLoaded } = useLive2D({ mouthOpenRef });
+
+    // Loading Screen Orchestration
+    const [isFadingOut, setIsFadingOut] = useState(false);
+    const isSystemReady = isVideoLoaded && isLive2DLoaded;
+
+    useEffect(() => {
+        if (isSystemReady) {
+            // Esperamos 1.5 segundos extra para disfrutar de la animación y asegurar estabilidad
+            const timer = setTimeout(() => setIsFadingOut(true), 1500);
+            return () => clearTimeout(timer);
+        }
+    }, [isSystemReady]);
 
     const handleReaction = useCallback((reaction: string) => {
         // Map reactions to Live2D motions
@@ -33,17 +50,6 @@ export default function MikuIdol() {
         onReaction: handleReaction,
     });
 
-    const handleBubbleUpdate = useCallback(() => {
-        const el = messagesRef.current;
-        if (!el) return;
-        // Smart scroll: if we are close to bottom, stick to bottom.
-        const threshold = 150; // generous threshold to catch user reading near bottom
-        const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
-        if (isNearBottom) {
-            el.scrollTop = el.scrollHeight;
-        }
-    }, [messagesRef]);
-
     return (
         <div
             style={{
@@ -55,6 +61,9 @@ export default function MikuIdol() {
                 gap: 18,
             }}
         >
+            {/* Pantalla de Carga Global del Sistema */}
+            <LoadingScreen isVisible={true} isFadingOut={isFadingOut} />
+
             {/* LEFT: Chat Interface */}
             <div
                 style={{

@@ -1,6 +1,9 @@
+import { useState } from "react";
 import MikuIdol from "./MikuIdol";
 
 export default function App() {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
   return (
     <>
       <div
@@ -19,6 +22,7 @@ export default function App() {
           loop
           muted
           playsInline
+          onCanPlayThrough={() => setIsVideoLoaded(true)}
           src="/background.mp4"
           style={{
             width: "100%",
@@ -27,7 +31,7 @@ export default function App() {
           }}
         />
       </div>
-      <MikuIdol />
+      <MikuIdol isVideoLoaded={isVideoLoaded} />
     </>
   );
 }

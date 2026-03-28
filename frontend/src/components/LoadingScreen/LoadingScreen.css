@@ -1,0 +1,79 @@
+/* ─── Sci-Fi HUD Loading Screen ─── */
+
+.sci-loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #020813; /* Very dark blue/black solid backdrop */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sci-loading-container.fade-out {
+  opacity: 0;
+  transform: scale(1.05); /* Slight zoom out while fading */
+  pointer-events: none;
+}
+
+.sci-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.sci-loading-logo {
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 230, 0.8));
+  animation: loading-pulse 2s infinite alternate;
+}
+
+.sci-loading-text {
+  font-family: 'Segoe UI', 'Inter', 'Roboto', sans-serif;
+  color: rgba(0, 255, 230, 0.9);
+  font-size: 14px;
+  letter-spacing: 6px;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(0, 255, 230, 0.6);
+  animation: loading-blink 1.5s infinite;
+}
+
+.sci-loading-bar {
+  width: 250px;
+  height: 4px;
+  background: rgba(0, 50, 80, 0.5);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 255, 230, 0.2);
+}
+
+.sci-loading-progress {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 255, 230, 0.9);
+  box-shadow: 0 0 10px rgba(0, 255, 230, 0.8);
+  animation: load-progress 1.5s infinite ease-in-out;
+  transform-origin: left;
+}
+
+@keyframes loading-pulse {
+  0% { transform: scale(0.95); opacity: 0.8; filter: drop-shadow(0 0 15px rgba(0, 255, 230, 0.5)); }
+  100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 35px rgba(0, 255, 230, 1)); }
+}
+
+@keyframes loading-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes load-progress {
+  0% { transform: scaleX(0); opacity: 0.5; }
+  50% { transform: scaleX(0.7); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}

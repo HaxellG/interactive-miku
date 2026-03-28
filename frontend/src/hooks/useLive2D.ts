@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as PIXI from "pixi.js";
 import { Live2DModel, MotionPreloadStrategy, MotionPriority } from "pixi-live2d-display/cubism4";
 import type { MotionGroup } from "../types/miku";
@@ -23,6 +23,8 @@ export function useLive2D({ mouthOpenRef }: UseLive2DProps) {
     const hostRef = useRef<HTMLDivElement | null>(null);
     const appRef = useRef<PIXI.Application | null>(null);
     const modelRef = useRef<any>(null);
+
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         let disposed = false;
@@ -94,6 +96,8 @@ export function useLive2D({ mouthOpenRef }: UseLive2DProps) {
                 if (!m) return;
                 updateLayout();
             });
+
+            setIsLoaded(true);
         }
 
         init().catch(console.error);
@@ -116,5 +120,6 @@ export function useLive2D({ mouthOpenRef }: UseLive2DProps) {
     return {
         hostRef, // Attatch this to the div
         playMotion,
+        isLoaded,
     };
 }
