@@ -4,6 +4,8 @@ import { useLive2D } from "./hooks/useLive2D";
 import { useCallback } from "react";
 import type { MotionGroup } from "./types/miku";
 import ChatInput from "./components/ChatInput/ChatInput";
+import ChatBubble from "./components/ChatBubbles/ChatBubble";
+import CreatorInfo from "./components/CreatorInfo/CreatorInfo";
 
 export default function MikuIdol() {
     const { mouthOpenRef, playAudio } = useAudioLipsync();
@@ -68,6 +70,18 @@ export default function MikuIdol() {
                     minHeight: 0,
                 }}
             >
+                {/* Chat History / Bubbles Container */}
+                <div className="sci-chat-container" ref={messagesRef}>
+                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="Hola! Soy Miku. ¿De qué te gustaría hablar hoy?" />
+                    <ChatBubble sender="user" text="¡Hola Miku! Me encanta tu interfaz futurista, es asombrosa." />
+                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="¡Gracias! Ha sido diseñada especialmente para encajar con el estilo ciberpunk y HUD que tanto nos gusta." />
+                    <ChatBubble sender="user" text="Quedó increíble el diseño, las burbujas y las luces se ven geniales." />
+                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="Me alegra mucho que te guste. El diseño utiliza SVG y CSS avanzado para los efectos neón." />
+                    <ChatBubble sender="user" text="¡Sí! Y los láseres de luz detrás de cada mensaje le dan mucha vida." />
+                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="Además ahora el chat tiene una barra de scroll personalizada para que puedas leer todo nuestro historial sin perder la estética HUD." />
+                    <ChatBubble sender="user" text="Perfecto, vamos a seguir programando los siguientes módulos entonces." />
+                </div>
+
                 {/* Chat Input */}
                 <ChatInput />
             </div>
@@ -82,9 +96,11 @@ export default function MikuIdol() {
                     background: "transparent",
                     border: "none",
                     borderRadius: 0,
-                    overflow: "hidden"
                 }}
             />
+
+            {/* Creator Info Floating Component */}
+            <CreatorInfo />
         </div>
     );
 }

@@ -2,10 +2,11 @@
 
 .chat-input-wrapper {
   position: absolute;
-  width: 425px;
-  height: 56px;
-  bottom: 55px;
-  left: 178px;
+  /* El video de fondo usa object-fit: fill, así que usamos proporciones exactas respecto a tu pantalla (1535x1053) */
+  width: calc(100vw * (425 / 1535));
+  height: calc(100vh * (56 / 1053));
+  bottom: calc(100vh * (55 / 1053));
+  left: calc(100vw * (178 / 1535));
   z-index: 10;
 
   /* ─── COLOR PALETTE ─── */

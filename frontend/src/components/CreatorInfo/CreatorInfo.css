@@ -1,0 +1,149 @@
+/* ─── Sci-Fi HUD Creator Info ─── */
+
+.sci-creator-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 90px;
+  height: 90px;
+  z-index: 100;
+}
+
+/* ─── Botón del Logo (Sin contenedor) ─── */
+.sci-creator-btn {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.sci-creator-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 230, 0.6));
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sci-creator-btn:hover img {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(0, 255, 230, 1));
+}
+
+.sci-creator-btn:active img {
+  transform: scale(0.95);
+}
+
+/* ─── Popup Info Box ─── */
+.sci-creator-popup {
+  position: absolute;
+  /* Posicionado por encima del botón */
+  bottom: 110%;
+  right: 0;
+  width: 280px;
+  
+  /* Glassmorphism styling */
+  background: rgba(0, 30, 45, 0.25);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  border-top: 2px solid rgba(0, 255, 230, 0.8);
+  border-radius: 8px 8px 0 8px; /* Esquina inferior derecha afilada */
+  padding: 16px 20px;
+  box-shadow: 
+    inset 0 0 20px rgba(0, 200, 255, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(0, 255, 230, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  /* Animación de entrada estilo HUD */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.9);
+  transform-origin: bottom right;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sci-creator-popup.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.sci-creator-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: rgba(200, 240, 255, 0.9);
+  font-family: 'Segoe UI', 'Inter', 'Roboto', sans-serif;
+  text-align: right; /* Alineado a la derecha, cerca del pulgar si es táctil / ratón */
+}
+
+.sci-creator-content h4 {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(0, 255, 230, 0.9);
+  border-bottom: 1px solid rgba(0, 255, 230, 0.3);
+  padding-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.sci-creator-content p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.sci-creator-content .heart {
+  color: #ff3366;
+  text-shadow: 0 0 10px rgba(255, 50, 100, 0.8);
+  font-size: 17px;
+  display: inline-block;
+  animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.2); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.2); }
+  60% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.sci-creator-content strong {
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+}
+
+/* ─── Botón Repo / Link ─── */
+.sci-repo-link {
+  display: inline-block;
+  margin-top: 6px;
+  align-self: flex-end;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 50, 150, 0.9); /* Contraste en magenta neón */
+  text-decoration: none;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 50, 150, 0.5);
+  padding: 8px 14px;
+  border-radius: 4px;
+  background: rgba(255, 50, 150, 0.1);
+  transition: all 0.2s ease;
+}
+
+.sci-repo-link:hover {
+  background: rgba(255, 50, 150, 0.25);
+  border-color: rgba(255, 100, 200, 1);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 50, 150, 0.6);
+  transform: translateX(-4px);
+}
