@@ -1,9 +1,11 @@
+import { useTypewriter } from "../../hooks/useTypewriter";
 import "./ChatBubbles.css";
 
 interface MessageProps {
   text: string;
   sender: "miku" | "user";
   avatarUrl?: string;
+  isTypingIndicator?: boolean;
 }
 
 /**
@@ -31,8 +33,10 @@ function SpeedLines() {
   );
 }
 
-export default function ChatBubble({ text, sender, avatarUrl }: MessageProps) {
+export default function ChatBubble({ text, sender, avatarUrl, isTypingIndicator }: MessageProps) {
   const isMiku = sender === "miku";
+  // Si Miku está hablando, aplicamos el efecto Typewriter
+  const { displayText } = useTypewriter(text, 25, isMiku && !isTypingIndicator);
 
   return (
     <div className={`sci-message-row ${sender}`}>
@@ -54,7 +58,15 @@ export default function ChatBubble({ text, sender, avatarUrl }: MessageProps) {
 
       {/* The Bubble Base */}
       <div className={`sci-bubble ${sender}`}>
-        {text}
+        {isTypingIndicator ? (
+          <div className="sci-typing-indicator">
+            <div className="sci-typing-dot" />
+            <div className="sci-typing-dot" />
+            <div className="sci-typing-dot" />
+          </div>
+        ) : (
+          isMiku ? displayText : text
+        )}
       </div>
 
       {/* Speed lines for Miku (Right of the bubble) */}

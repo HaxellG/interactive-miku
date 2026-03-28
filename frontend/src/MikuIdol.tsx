@@ -72,18 +72,31 @@ export default function MikuIdol() {
             >
                 {/* Chat History / Bubbles Container */}
                 <div className="sci-chat-container" ref={messagesRef}>
-                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="Hola! Soy Miku. ¿De qué te gustaría hablar hoy?" />
-                    <ChatBubble sender="user" text="¡Hola Miku! Me encanta tu interfaz futurista, es asombrosa." />
-                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="¡Gracias! Ha sido diseñada especialmente para encajar con el estilo ciberpunk y HUD que tanto nos gusta." />
-                    <ChatBubble sender="user" text="Quedó increíble el diseño, las burbujas y las luces se ven geniales." />
-                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="Me alegra mucho que te guste. El diseño utiliza SVG y CSS avanzado para los efectos neón." />
-                    <ChatBubble sender="user" text="¡Sí! Y los láseres de luz detrás de cada mensaje le dan mucha vida." />
-                    <ChatBubble sender="miku" avatarUrl="/miku-avatar.jpg" text="Además ahora el chat tiene una barra de scroll personalizada para que puedas leer todo nuestro historial sin perder la estética HUD." />
-                    <ChatBubble sender="user" text="Perfecto, vamos a seguir programando los siguientes módulos entonces." />
+                    {messages.map((msg) => (
+                        <ChatBubble 
+                            key={msg.id} 
+                            sender={msg.role} 
+                            avatarUrl="/miku-avatar.jpg" 
+                            text={msg.text} 
+                        />
+                    ))}
+                    {isBusy && (
+                        <ChatBubble 
+                            sender="miku" 
+                            avatarUrl="/miku-avatar.jpg" 
+                            text="" 
+                            isTypingIndicator 
+                        />
+                    )}
                 </div>
 
                 {/* Chat Input */}
-                <ChatInput />
+                <ChatInput 
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onSend={sendMessage}
+                    isBusy={isBusy}
+                />
             </div>
 
 
