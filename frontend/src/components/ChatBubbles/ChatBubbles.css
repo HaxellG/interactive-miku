@@ -1,16 +1,12 @@
 /* ─── Sci-Fi HUD Chat Bubbles ─── */
 
 .sci-chat-container {
-  /* Posicionamiento Absoluto que escala idéntico al video de fondo */
+  /* Absolute positioning scaled precisely to the background video dimensions */
   position: absolute;
   top: calc(100vh * (120 / 1053));
-  /* Distancia desde arriba */
   bottom: calc(100vh * (140 / 1053));
-  /* Distancia desde abajo (deja espacio para el input) */
   left: calc(100vw * (150 / 1535));
-  /* Distancia desde la izquierda */
   width: calc(100vw * (450 / 1535));
-  /* Ancho total del área de chat */
   z-index: 5;
 
   display: flex;
@@ -94,6 +90,8 @@
   line-height: 1.5;
   backdrop-filter: blur(4px);
   z-index: 2;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ─── Miku Bubble (Blue/Cyan styling) ─── */

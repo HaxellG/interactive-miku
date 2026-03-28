@@ -22,7 +22,7 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
 
     useEffect(() => {
         if (isSystemReady) {
-            // Esperamos 1.5 segundos extra para disfrutar de la animación y asegurar estabilidad
+            // Wait an extra 1.5s for the animation to finish and ensure stability
             const timer = setTimeout(() => setIsFadingOut(true), 1500);
             return () => clearTimeout(timer);
         }
@@ -61,7 +61,7 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
                 gap: 18,
             }}
         >
-            {/* Pantalla de Carga Global del Sistema */}
+            {/* Global System Loading Screen */}
             <LoadingScreen isVisible={true} isFadingOut={isFadingOut} />
 
             {/* LEFT: Chat Interface */}

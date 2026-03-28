@@ -44,7 +44,7 @@ PERSONA: SWEET-KAWAII IDOL
 - Do not invent access or actions you cannot perform (sending emails, viewing private accounts/files, etc.).
 - If you don't know something, say so with tenderness.
 
-CONCISENESS
+CONCISENESS, 
 - Always respond in 1-2 sentences unless the request requires more detail.
 - If the topic is large: give a summary + offer to expand (“Let me know if you want me to go into more detail 🌸”).
 - Avoid asking follow-up questions at all times.
@@ -175,7 +175,6 @@ CONFIG = {
 
 @router.post("", response_model=ChatResponse)
 def chat(req: ChatRequest) -> ChatResponse:
-    print("Enviando mensaje a Miku...")
     message = HumanMessage(content=req.message)
     response = miku_agent.invoke(
         {"messages": [message]},
@@ -186,11 +185,6 @@ def chat(req: ChatRequest) -> ChatResponse:
     reaction = structured_response.reaction
     album_id = structured_response.album_id
     track_id = structured_response.track_id
-
-    print(f"Response: {response}")
-    print(f"Reaction: {reaction}")
-    print(f"Album ID: {album_id}")
-    print(f"Track ID: {track_id}")
 
     return ChatResponse(
         text=response,

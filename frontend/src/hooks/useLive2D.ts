@@ -118,7 +118,7 @@ export function useLive2D({ mouthOpenRef }: UseLive2DProps) {
     }
 
     return {
-        hostRef, // Attatch this to the div
+        hostRef, // Attach this to the div
         playMotion,
         isLoaded,
     };

@@ -70,7 +70,7 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
             await onSpeak(processedAssistantText);
         } catch (e) {
             console.error(e);
-            const mikuErrorMessage: ChatMessage = { id: uid(), role: "miku", text: "No pude contactar el backend de chat." };
+            const mikuErrorMessage: ChatMessage = { id: uid(), role: "miku", text: "Could not contact the chat backend." };
             setIsBusy(false);
             setMessages((m) => [...m, mikuErrorMessage]);
         }
