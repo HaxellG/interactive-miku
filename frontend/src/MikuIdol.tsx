@@ -3,7 +3,7 @@ import { useChat } from "./hooks/useChat";
 import { useLive2D } from "./hooks/useLive2D";
 import { useCallback } from "react";
 import type { MotionGroup } from "./types/miku";
-
+import ChatInput from "./components/ChatInput/ChatInput";
 
 export default function MikuIdol() {
     const { mouthOpenRef, playAudio } = useAudioLipsync();
@@ -68,8 +68,8 @@ export default function MikuIdol() {
                     minHeight: 0,
                 }}
             >
-                {/* LAYER 1: Outer neon frame (brightest glow) */}
-                
+                {/* Chat Input */}
+                <ChatInput />
             </div>
 
 

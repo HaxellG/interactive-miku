@@ -1,0 +1,104 @@
+/* ─── Sci-Fi HUD Chat Input ─── */
+
+.chat-input-wrapper {
+  position: absolute;
+  width: 425px;
+  height: 56px;
+  bottom: 55px;
+  left: 178px;
+  z-index: 10;
+
+  /* ─── COLOR PALETTE ─── */
+  /* Input Panel (Neon Teal) */
+  --in-fill: rgba(0, 40, 50, 0.2);
+  --in-border: rgba(124, 225, 235, 0.95);
+  --in-inner-glow: rgba(0, 255, 210, 0.30);
+  --in-outer-glow: rgba(0, 255, 230, 0.4);
+
+  /* Button Panel (Cold Cyan - Glacier) */
+  --btn-fill: rgba(0, 40, 70, 0.2);
+  --btn-border: rgba(196, 236, 252, 0.95);
+  --btn-inner-glow: rgba(50, 210, 255, 0.52);
+  --btn-outer-glow: rgba(40, 200, 255, 0.5);
+  --btn-icon: rgba(95, 241, 241, 0.60);
+  --btn-icon-core: rgba(95, 241, 241, 0.95);
+  
+  /* Transitions for smooth hover effects */
+  transition: all 0.25s ease-out;
+}
+
+/* ─── SVG Container ─── */
+.sci-svg-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let HTML overlay handle clicks */
+  overflow: visible; /* Prevent glow from cropping at edges */
+}
+
+/* ─── Content Overlay ─── */
+.sci-input-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-left: 24px;
+  /* Leave ample space on the right for the diagonal cut, gap, and wider button */
+  padding-right: 140px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none; /* Allows clicking through to empty areas */
+}
+
+.sci-input-field {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(180, 240, 255, 0.95);
+  font-family: 'Segoe UI', 'Inter', 'Roboto', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  caret-color: rgba(0, 255, 255, 0.8);
+  pointer-events: auto; /* Re-enable pointer events for the text field */
+}
+
+.sci-input-field::placeholder {
+  color: rgba(140, 220, 235, 0.5);
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* ─── Interactive States ─── */
+.chat-input-wrapper:focus-within {
+  --in-inner-glow: rgba(0, 255, 220, 0.7);
+  --in-outer-glow: rgba(0, 255, 230, 0.6);
+  --in-fill: rgba(0, 50, 65, 0.3);
+}
+
+.sci-btn-group {
+  cursor: pointer;
+  pointer-events: auto; /* Enable clicks on the SVG group */
+  transition: all 0.2s ease;
+}
+
+.sci-btn-group:hover {
+  --btn-fill: rgba(0, 50, 85, 0.35);
+  --btn-border: rgba(100, 240, 255, 1);
+  --btn-inner-glow: rgba(100, 240, 255, 0.85);
+  --btn-outer-glow: rgba(80, 220, 255, 0.7);
+  --btn-icon: rgba(255, 255, 255, 1);
+  --btn-icon-core: #ffffff;
+}
+
+.sci-btn-group:active {
+  --btn-border: rgba(180, 255, 255, 1);
+  --btn-inner-glow: rgba(180, 255, 255, 0.95);
+  --btn-fill: rgba(0, 60, 100, 0.45);
+}
