@@ -68,12 +68,18 @@
   letter-spacing: 0.5px;
   caret-color: rgba(0, 255, 255, 0.8);
   pointer-events: auto; /* Re-enable pointer events for the text field */
+  transition: all 0.3s ease;
+}
+
+.sci-input-field:focus {
+  outline: none;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 230, 0.5));
 }
 
 .sci-input-field::placeholder {
-  color: rgba(140, 220, 235, 0.5);
+  color: rgba(0, 255, 230, 0.4);
   font-style: italic;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 /* ─── Interactive States ─── */
@@ -102,4 +108,69 @@
   --btn-border: rgba(180, 255, 255, 1);
   --btn-inner-glow: rgba(180, 255, 255, 0.95);
   --btn-fill: rgba(0, 60, 100, 0.45);
+}
+
+/* ─── CHAR COUNTER ─── */
+.sci-char-counter {
+  position: absolute;
+  right: 155px; /* Sits right before the send button gap */
+  color: rgba(0, 255, 230, 0.5);
+  font-size: 11px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 0 0 4px rgba(0, 255, 230, 0.2);
+}
+
+/* ─── FLOATING TOAST POPUPS ─── */
+.sci-toast-popup {
+  position: absolute;
+  top: -45px; /* Sits completely above the input box */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding: 8px 16px;
+  background: rgba(0, 20, 35, 0.85);
+  border: 1px solid rgba(0, 255, 230, 0.4);
+  border-radius: 4px;
+  color: rgba(0, 255, 230, 0.9);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.6),
+    inset 0 0 10px rgba(0, 255, 230, 0.2);
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.sci-toast-popup.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.sci-toast-popup.error {
+  border-color: rgba(255, 0, 80, 0.8);
+  color: rgba(255, 100, 150, 1);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.6),
+    inset 0 0 15px rgba(255, 0, 80, 0.3);
+  text-shadow: 0 0 5px rgba(255, 0, 80, 0.6);
+}
+
+.sci-toast-popup.info {
+  border-color: rgba(0, 200, 255, 0.8);
+  color: rgba(150, 230, 255, 1);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.6),
+    inset 0 0 15px rgba(0, 200, 255, 0.3);
+  text-shadow: 0 0 5px rgba(0, 200, 255, 0.6);
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./ChatInput.css";
 
 /**
@@ -17,14 +18,54 @@ interface ChatInputProps {
 }
 
 export default function ChatInput({ value, onChange, onSend, isBusy }: ChatInputProps) {
+  const [showLimitToast, setShowLimitToast] = useState(false);
+  const [showMicToast, setShowMicToast] = useState(false);
+
   // Uses a 600x56 viewBox canvas.
   const INPUT_POLY = "16,2 205,2 209,6 411,6 415,2 510,2 460,54 415,54 411,50 209,50 205,54 16,54 4,40 4,16";
   const BUTTON_POLY = "522,2 584,2 596,14 596,40 584,54 472,54";
   const ICON_WING_TOP = "534,13 566,28 544,27";
   const ICON_WING_BOT = "534,43 566,28 544,29";
 
+  const isInputEmpty = value.trim().length === 0;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 150) {
+      setShowLimitToast(true);
+      setTimeout(() => setShowLimitToast(false), 3000);
+      return; // Block further typing
+    }
+    onChange(e);
+  };
+
+  const handleActionClick = () => {
+    if (isBusy) return;
+    
+    if (isInputEmpty) {
+      setShowMicToast(true);
+      setTimeout(() => setShowMicToast(false), 3000);
+    } else {
+      onSend();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isBusy && !isInputEmpty) {
+      onSend();
+    }
+  };
+
   return (
     <div className="chat-input-wrapper" style={{ opacity: isBusy ? 0.7 : 1 }}>
+      
+      {/* ── HUD TOAST NOTIFICATIONS ── */}
+      <div className={`sci-toast-popup ${showLimitToast ? "visible error" : ""}`}>
+        [ SYSTEM WARNING: MAXIMUM CHARACTER LIMIT (150) REACHED ]
+      </div>
+      <div className={`sci-toast-popup ${showMicToast ? "visible info" : ""}`}>
+        [ AUDIO INPUT RECEPTOR IN DEVELOPMENT... ]
+      </div>
+
       {/* ── BACKGROUND VECTOR LAYER ── */}
       <svg
         className="sci-svg-bg"
@@ -59,19 +100,39 @@ export default function ChatInput({ value, onChange, onSend, isBusy }: ChatInput
           <polygon points={INPUT_POLY} fill="none" stroke="var(--in-border)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
         </g>
 
-        {/* ── 2. SEND BUTTON PANEL (Glacial Blue) ── */}
-        <g className="sci-btn-group" onClick={!isBusy ? onSend : undefined} style={{ cursor: isBusy ? 'not-allowed' : 'pointer' }}>
+        {/* ── 2. ACTION BUTTON PANEL (Glacial Blue) ── */}
+        <g className="sci-btn-group" onClick={handleActionClick} style={{ cursor: isBusy ? 'not-allowed' : 'pointer' }}>
           <polygon points={BUTTON_POLY} fill="none" stroke="var(--btn-outer-glow)" strokeWidth="5" filter="url(#glowOuterTight)" />
           <polygon points={BUTTON_POLY} fill="var(--btn-fill)" />
           <polygon points={BUTTON_POLY} fill="none" stroke="var(--btn-inner-glow)" strokeWidth="28" clipPath="url(#btnClipMask)" filter="url(#glowInnerWash)" />
           <polygon points={BUTTON_POLY} fill="none" stroke="var(--btn-inner-glow)" strokeWidth="12" clipPath="url(#btnClipMask)" filter="url(#glowInnerRim)" />
           <polygon points={BUTTON_POLY} fill="none" stroke="var(--btn-border)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
 
-          {/* ── 3. SEND ICON (Segmented dual-wing arrow) ── */}
-          <polygon points={ICON_WING_TOP} fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
-          <polygon points={ICON_WING_BOT} fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
-          <polygon points={ICON_WING_TOP} fill="var(--btn-icon-core)" />
-          <polygon points={ICON_WING_BOT} fill="var(--btn-icon-core)" />
+          {/* ── 3. DYNAMIC ICON (Send or Mic) ── */}
+          {!isInputEmpty ? (
+            // SEND ICON
+            <>
+              <polygon points={ICON_WING_TOP} fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+              <polygon points={ICON_WING_BOT} fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+              <polygon points={ICON_WING_TOP} fill="var(--btn-icon-core)" />
+              <polygon points={ICON_WING_BOT} fill="var(--btn-icon-core)" />
+            </>
+          ) : (
+            // MICROPHONE ICON (Audio Waveform)
+            <g>
+              <rect x="532" y="23" width="4" height="10" rx="2" fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+              <rect x="540" y="18" width="4" height="20" rx="2" fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+              <rect x="548" y="14" width="4" height="28" rx="2" fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+              <rect x="556" y="18" width="4" height="20" rx="2" fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+              <rect x="564" y="23" width="4" height="10" rx="2" fill="var(--btn-icon)" filter="url(#glowOuterTight)" />
+
+              <rect x="532" y="23" width="4" height="10" rx="2" fill="var(--btn-icon-core)" />
+              <rect x="540" y="18" width="4" height="20" rx="2" fill="var(--btn-icon-core)" />
+              <rect x="548" y="14" width="4" height="28" rx="2" fill="var(--btn-icon-core)" />
+              <rect x="556" y="18" width="4" height="20" rx="2" fill="var(--btn-icon-core)" />
+              <rect x="564" y="23" width="4" height="10" rx="2" fill="var(--btn-icon-core)" />
+            </g>
+          )}
         </g>
       </svg>
 
@@ -80,14 +141,10 @@ export default function ChatInput({ value, onChange, onSend, isBusy }: ChatInput
         <input
           type="text"
           className="sci-input-field"
-          placeholder={isBusy ? "Miku está escribiendo..." : "Chat with Miku..."}
+          placeholder={isBusy ? "Miku is typing..." : "Chat with Miku..."}
           value={value}
-          onChange={onChange}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !isBusy) {
-              onSend();
-            }
-          }}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           disabled={isBusy}
         />
       </div>
