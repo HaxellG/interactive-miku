@@ -20,6 +20,9 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
     const [isFadingOut, setIsFadingOut] = useState(false);
     const isSystemReady = isVideoLoaded && isLive2DLoaded;
 
+    // Real progress: 0 → 50 (video) → 100 (Live2D)
+    const loadProgress = isLive2DLoaded ? 100 : isVideoLoaded ? 50 : 0;
+
     useEffect(() => {
         if (isSystemReady) {
             // Wait an extra 1.5s for the animation to finish and ensure stability
@@ -62,7 +65,7 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
             }}
         >
             {/* Global System Loading Screen */}
-            <LoadingScreen isVisible={true} isFadingOut={isFadingOut} />
+            <LoadingScreen isVisible={true} isFadingOut={isFadingOut} progress={loadProgress} />
 
             {/* LEFT: Chat Interface */}
             <div

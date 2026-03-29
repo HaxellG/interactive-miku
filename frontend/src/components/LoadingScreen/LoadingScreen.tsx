@@ -3,9 +3,10 @@ import "./LoadingScreen.css";
 interface LoadingScreenProps {
   isVisible: boolean;
   isFadingOut: boolean;
+  progress: number; // 0-100
 }
 
-export default function LoadingScreen({ isVisible, isFadingOut }: LoadingScreenProps) {
+export default function LoadingScreen({ isVisible, isFadingOut, progress }: LoadingScreenProps) {
   if (!isVisible) return null;
 
   return (
@@ -14,7 +15,10 @@ export default function LoadingScreen({ isVisible, isFadingOut }: LoadingScreenP
         <img src={`${import.meta.env.BASE_URL}miku-logo.png`} alt="Miku Logo" className="sci-loading-logo" />
         <h2 className="sci-loading-text">INITIALIZING SYSTEM...</h2>
         <div className="sci-loading-bar">
-          <div className="sci-loading-progress"></div>
+          <div
+            className="sci-loading-progress"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </div>
     </div>

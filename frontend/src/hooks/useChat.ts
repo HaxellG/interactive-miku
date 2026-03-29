@@ -41,8 +41,8 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
             const chatRes = await axios.post(`${API_BASE}/chat`, { message: content });
             const assistantText: string = (chatRes?.data?.text ?? "").trim() || "…";
             const mikuReaction: string = (chatRes?.data?.reaction ?? "natural");
-            const albumId: string = (chatRes?.data?.album_id); // Future implementation
-            const trackId: string = (chatRes?.data?.track_id); // Future implementation
+            // const albumId: string = (chatRes?.data?.album_id); // Future implementation
+            // const trackId: string = (chatRes?.data?.track_id); // Future implementation
 
             // Removes emojis and URLs from TTS
             const processedAssistantText = assistantText
