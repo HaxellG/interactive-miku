@@ -71,6 +71,8 @@
    cd ../frontend
    npm install
    ```
+   Create a `.env` file in the `frontend/` directory with your API keys. Use the `.env.example` file as a reference.
+   
 4. **Run the Application**
    There is a custom `run.sh` script provided in the root directory to boot both servers simultaneously:
    ```bash
