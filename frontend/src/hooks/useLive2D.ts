@@ -5,7 +5,7 @@ import type { MotionGroup } from "../types/miku";
 
 (window as any).PIXI = PIXI;
 
-const MODEL_URL = "/live2d/miku/miku_sample_t04.model3.json";
+const MODEL_URL = `${import.meta.env.BASE_URL}live2d/miku/miku_sample_t04.model3.json`;
 
 function setParameter(model: any, id: string, value: number) {
     const core = model?.internalModel?.coreModel;

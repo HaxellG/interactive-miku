@@ -85,14 +85,14 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
                         <ChatBubble 
                             key={msg.id} 
                             sender={msg.role} 
-                            avatarUrl="/miku-avatar.jpg" 
+                            avatarUrl={`${import.meta.env.BASE_URL}miku-avatar.jpg`} 
                             text={msg.text} 
                         />
                     ))}
                     {isBusy && (
                         <ChatBubble 
                             sender="miku" 
-                            avatarUrl="/miku-avatar.jpg" 
+                            avatarUrl={`${import.meta.env.BASE_URL}miku-avatar.jpg`} 
                             text="" 
                             isTypingIndicator 
                         />

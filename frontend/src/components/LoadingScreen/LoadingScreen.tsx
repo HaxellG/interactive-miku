@@ -11,7 +11,7 @@ export default function LoadingScreen({ isVisible, isFadingOut }: LoadingScreenP
   return (
     <div className={`sci-loading-container ${isFadingOut ? "fade-out" : ""}`}>
       <div className="sci-loading-content">
-        <img src="/miku-logo.png" alt="Miku Logo" className="sci-loading-logo" />
+        <img src={`${import.meta.env.BASE_URL}miku-logo.png`} alt="Miku Logo" className="sci-loading-logo" />
         <h2 className="sci-loading-text">INITIALIZING SYSTEM...</h2>
         <div className="sci-loading-bar">
           <div className="sci-loading-progress"></div>

@@ -24,7 +24,7 @@ export default function CreatorInfo() {
         aria-label="Creator Info"
       >
         {/* Usará la imagen miku-logo.png alojada en la carpeta public */}
-        <img src="/miku-logo.png" alt="Miku Logo" />
+        <img src={`${import.meta.env.BASE_URL}miku-logo.png`} alt="Miku Logo" />
       </button>
     </div>
   );

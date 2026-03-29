@@ -23,7 +23,7 @@ export default function App() {
           muted
           playsInline
           onCanPlayThrough={() => setIsVideoLoaded(true)}
-          src="/background.mp4"
+          src={`${import.meta.env.BASE_URL}background.mp4`}
           style={{
             width: "100%",
             height: "100%",
