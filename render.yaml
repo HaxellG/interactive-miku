@@ -23,9 +23,9 @@ services:
         sync: false
       - key: ELEVENLABS_MODEL_ID
         value: "eleven_multilingual_v2"
-      - key: SPOTIPY_CLIENT_ID
+      - key: SPOTIFY_CLIENT_ID
         sync: false
-      - key: SPOTIPY_CLIENT_SECRET
+      - key: SPOTIFY_CLIENT_SECRET
         sync: false
       - key: TAVILY_API_KEY
         sync: false
