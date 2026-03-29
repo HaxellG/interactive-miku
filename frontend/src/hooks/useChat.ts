@@ -13,6 +13,18 @@ interface UseChatProps {
     onReaction: (reaction: string) => void;
 }
 
+function getSessionId(): string {
+    const key = "miku_session_id";
+    let id = sessionStorage.getItem(key);
+    if (!id) {
+        id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        sessionStorage.setItem(key, id);
+    }
+    return id;
+}
+
+const SESSION_ID = getSessionId();
+
 export function useChat({ onSpeak, onReaction }: UseChatProps) {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [draft, setDraft] = useState("");
@@ -38,7 +50,7 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
 
         setIsBusy(true);
         try {
-            const chatRes = await axios.post(`${API_BASE}/chat`, { message: content });
+            const chatRes = await axios.post(`${API_BASE}/chat`, { message: content, session_id: SESSION_ID });
             const assistantText: string = (chatRes?.data?.text ?? "").trim() || "…";
             const mikuReaction: string = (chatRes?.data?.reaction ?? "natural");
             // const albumId: string = (chatRes?.data?.album_id); // Future implementation
