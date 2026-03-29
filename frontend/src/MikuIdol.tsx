@@ -45,7 +45,7 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
         // natural or unknown reactions: do nothing
     }, [playMotion]);
 
-    const { messages, draft, isBusy, setDraft, messagesRef, sendMessage } = useChat({
+    const { messages, draft, isBusy, setDraft, messagesRef, sendMessage, apiError } = useChat({
         onSpeak: playAudio,
         onReaction: handleReaction,
     });
@@ -105,6 +105,7 @@ export default function MikuIdol({ isVideoLoaded = false }: MikuIdolProps) {
                     onChange={(e) => setDraft(e.target.value)}
                     onSend={sendMessage}
                     isBusy={isBusy}
+                    apiError={apiError}
                 />
             </div>
 

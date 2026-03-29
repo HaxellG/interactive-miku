@@ -15,9 +15,10 @@ interface ChatInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSend: () => void;
   isBusy: boolean;
+  apiError?: string | null;
 }
 
-export default function ChatInput({ value, onChange, onSend, isBusy }: ChatInputProps) {
+export default function ChatInput({ value, onChange, onSend, isBusy, apiError }: ChatInputProps) {
   const [showLimitToast, setShowLimitToast] = useState(false);
   const [showMicToast, setShowMicToast] = useState(false);
 
@@ -59,6 +60,9 @@ export default function ChatInput({ value, onChange, onSend, isBusy }: ChatInput
     <div className="chat-input-wrapper" style={{ opacity: isBusy ? 0.7 : 1 }}>
       
       {/* ── HUD TOAST NOTIFICATIONS ── */}
+      <div className={`sci-toast-popup ${apiError ? "visible error" : ""}`}>
+        {apiError}
+      </div>
       <div className={`sci-toast-popup ${showLimitToast ? "visible error" : ""}`}>
         [ SYSTEM WARNING: MAXIMUM CHARACTER LIMIT (150) REACHED ]
       </div>

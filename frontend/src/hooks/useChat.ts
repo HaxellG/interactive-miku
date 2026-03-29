@@ -17,6 +17,7 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [draft, setDraft] = useState("");
     const [isBusy, setIsBusy] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
     const messagesRef = useRef<HTMLDivElement | null>(null);
 
     // Auto-scroll logic
@@ -40,16 +41,8 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
             const chatRes = await axios.post(`${API_BASE}/chat`, { message: content });
             const assistantText: string = (chatRes?.data?.text ?? "").trim() || "…";
             const mikuReaction: string = (chatRes?.data?.reaction ?? "natural");
-            const albumId: string = (chatRes?.data?.album_id);
-            const trackId: string = (chatRes?.data?.track_id);
-
-            console.log("Miku Reaction: ", mikuReaction);
-            if (albumId) {
-                console.log("Album ID: ", albumId);
-            }
-            if (trackId) {
-                console.log("Track ID: ", trackId);
-            }
+            const albumId: string = (chatRes?.data?.album_id); // Future implementation
+            const trackId: string = (chatRes?.data?.track_id); // Future implementation
 
             // Removes emojis and URLs from TTS
             const processedAssistantText = assistantText
@@ -70,10 +63,16 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
             await onSpeak(processedAssistantText);
         } catch (e) {
             console.error(e);
-            const mikuErrorMessage: ChatMessage = { id: uid(), role: "miku", text: "Could not contact the chat backend." };
+            let errorMessage = "[ SYSTEM ERROR: COULD NOT CONTACT THE SERVER ]";
+            if (axios.isAxiosError(e) && e.response?.status === 429) {
+                errorMessage = "[ WARNING: TOO MANY MESSAGES. PLEASE WAIT ]";
+            }
+            onReaction("surprised");
+            setApiError(errorMessage);
+            setTimeout(() => setApiError(null), 5000);
             setIsBusy(false);
-            setMessages((m) => [...m, mikuErrorMessage]);
         }
+
     }
 
     return {
@@ -83,5 +82,6 @@ export function useChat({ onSpeak, onReaction }: UseChatProps) {
         isBusy,
         messagesRef,
         sendMessage,
+        apiError,
     };
 }

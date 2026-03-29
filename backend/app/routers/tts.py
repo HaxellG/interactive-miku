@@ -1,6 +1,7 @@
 from typing import Optional, Dict, Any, AsyncIterator
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import StreamingResponse
+from app.core.rate_limit import limiter
 from pydantic import BaseModel, Field
 import httpx
 
@@ -40,7 +41,8 @@ def _payload(req: TTSRequest) -> dict:
     return payload
 
 @router.post("", response_class=StreamingResponse)
-async def tts(req: TTSRequest):
+@limiter.limit("8/minute")
+async def tts(request: Request, req: TTSRequest):
     """
     Devuelve un MP3 completo (no streaming).
     """
@@ -71,7 +73,8 @@ async def _stream_bytes(url: str, payload: dict) -> AsyncIterator[bytes]:
                     yield chunk
 
 @router.post("/stream", response_class=StreamingResponse)
-async def tts_stream(req: TTSRequest):
+@limiter.limit("8/minute")
+async def tts_stream(request: Request, req: TTSRequest):
     """
     Devuelve audio en streaming (chunked transfer encoding). :contentReference[oaicite:10]{index=10}
     """

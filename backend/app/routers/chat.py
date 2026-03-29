@@ -1,5 +1,5 @@
-import random
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from app.core.rate_limit import limiter
 from pydantic import BaseModel, Field
 
 from langchain.agents import create_agent
@@ -19,7 +19,7 @@ load_dotenv()
 router = APIRouter(prefix="/chat", tags=["chat"])
 
 class ChatRequest(BaseModel):
-    message: str = Field(..., min_length=1, max_length=8000)
+    message: str = Field(..., min_length=1, max_length=150)
 
 class ChatResponse(BaseModel):
     text: str
@@ -174,7 +174,8 @@ CONFIG = {
 }
 
 @router.post("", response_model=ChatResponse)
-def chat(req: ChatRequest) -> ChatResponse:
+@limiter.limit("8/minute")
+def chat(request: Request, req: ChatRequest) -> ChatResponse:
     message = HumanMessage(content=req.message)
     response = miku_agent.invoke(
         {"messages": [message]},
